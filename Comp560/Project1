@@ -1,0 +1,155 @@
+%Project 1: Family Tree Source Code
+%Programmer: Ernest Curioso
+%Class: COMP 560 Section #15844
+%Spring 2016
+%Professor Gabrovsky
+
+male(ben).
+male(edwin).
+male(harry).
+male(paul).
+male(oscar).
+male(chris).
+male(phil).
+male(danny).
+male(ernie).
+male(juan).
+male(char).
+male(jon).
+male(dan).
+male(brock).
+male(carlos).
+male(leif).
+male(ernest).
+female(mel).
+female(rose).
+female(missy).
+female(jan).
+female(lily).
+female(emma).
+female(flor).
+female(myrna).
+female(lolita).
+female(carie).
+female(karla).
+female(kristy).
+female(lorna).
+female(misty).
+female(jen).
+female(maria).
+parent(ben,oscar).
+parent(mel,oscar).
+parent(rose,lily).
+parent(edwin,lily).
+parent(harry,emma).
+parent(missy,emma).
+parent(jan,chris).
+parent(paul,chris).
+parent(oscar,flor).
+parent(lily,flor).
+parent(oscar,myrna).
+parent(lily,ernie).
+parent(oscar,ernie).
+parent(lily,myrna).
+parent(emma,lolita).
+parent(chris,lolita).
+parent(emma,carie).
+parent(chris,carie).
+parent(emma,char).
+parent(chris,char).
+parent(phil,kristy).
+parent(phil,jon).
+parent(flor,kristy).
+parent(flor,jon).
+parent(myrna,lorna).
+parent(myrna,dan).
+parent(danny,lorna).
+parent(danny,dan).
+parent(ernie,leif).
+parent(ernie,ernest).
+parent(ernie,maria).
+parent(lolita,leif).
+parent(lolita,ernest).
+parent(lolita,maria).
+parent(carie,misty).
+parent(carie,brock).
+parent(juan,misty).
+parent(juan,brock).
+parent(char,carlos).
+parent(char,jen).
+parent(karla,carlos).
+parent(karla,jen).
+
+mother(X,Y):-
+	female(X),
+	parent(X,Y).
+father(X,Y):-
+	male(X),
+	parent(X,Y).
+child(X,Y):-
+	parent(Y,X).
+son(X,Y):-
+	parent(Y,X),
+	male(X).
+daughter(X,Y):-
+	parent(Y,X),
+	female(X).
+sister(X,Y):-
+	female(X),
+	parent(Z,X),
+	parent(Z,Y),
+	not(X=Y).
+brother(X,Y):-
+	male(X),
+	parent(Z,X),
+	parent(Z,Y),
+	not(X=Y).
+sibling(X,Y):-
+	father(A,X),
+	father(A,Y),
+	mother(B,X),
+	mother(B,Y),
+	not(X=Y).
+cousin(X,Y):-
+	parent(Z,X),
+	parent(W,Y),
+	sibling(Z,W).
+aunt(X,Y):-
+	female(X),
+	parent(A,Y),
+	sibling(X,A).
+uncle(X,Y):-
+	male(X),
+	parent(A,Y),
+	sibling(X,A).
+grandparent(X,Y):-
+	parent(X,Z),
+	parent(Z,Y).
+grandmother(X,Y):-
+	female(X),
+	grandparent(X,Y).
+grandfather(X,Y):-
+	male(X),
+	grandparent(X,Y).
+ancestor(X,Y):-
+	parent(X,Y).
+ancestor(X,Y):-
+	parent(X,Z),
+	ancestor(Z,Y).
+descendant(X,Y):-
+	parent(Y,X).
+descendant(X,Y):-
+	parent(Y,Z),
+	ancestor(Z,X).
+relative(X,Y):-
+	ancestor(X,Y).
+relative(X,Y):-
+	descendant(X,Y).
+relative(X,Y):-
+	ancestor(Z,X),
+	ancestor(Z,Y),
+	not(X=Y).
+relative(X,Y):-
+	descendant(Z,X),
+	descendant(Z,Y),
+	not(X=Y).
